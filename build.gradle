@@ -1,0 +1,53 @@
+group 'com.thoughtworks'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+    }
+}
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+sourceCompatibility = 1.8
+
+jar {
+    baseName = 'apidoc-ref-impl'
+    version = '1.0.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
+    }
+    exclude '**/functional/**'
+}
+
+task unitTest( type: Test ) {
+    exclude '**/functional/**'
+}
+
+task functionalTest( type: Test ) {
+    include '**/functional/**'
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-hateoas")
+
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+
+    compile("io.springfox:springfox-swagger2:2.2.2")
+    compile("io.springfox:springfox-swagger-ui:2.2.2")
+
+    testCompile("junit:junit")
+    testCompile("com.jayway.restassured:rest-assured:2.9.0")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
