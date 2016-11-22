@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = APIReferenceApplication.class, properties = "server.port:0")
-@WebAppConfiguration
+@SpringBootTest(classes = APIReferenceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PostControllerIntegrationTest {
 
-    @Value("${server.port}")
+    @LocalServerPort
     int port;
 
 

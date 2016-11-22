@@ -17,7 +17,7 @@ import static java.time.OffsetDateTime.now;
 @Service
 public class PostService {
 
-    private static final ConcurrentMap<UUID, Post> posts = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Post> posts = new ConcurrentHashMap<>();
     private static final ZoneId UTC = ZoneId.of("UTC");
 
     public List<Post> getAllPosts() {
@@ -34,7 +34,7 @@ public class PostService {
         OffsetDateTime now = now(UTC);
         post.setDateCreated(now);
         post.setDateUpdated(now);
-        posts.put(id, post);
+        posts.put(id.toString(), post);
         return post;
     }
 

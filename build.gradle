@@ -29,23 +29,15 @@ test {
         junitXml.enabled = false
         html.enabled = true
     }
-    exclude '**/functional/**'
-}
-
-task unitTest( type: Test ) {
-    exclude '**/functional/**'
-}
-
-task functionalTest( type: Test ) {
-    include '**/functional/**'
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.1") //java.time support
+
+    compile("net.logstash.logback:logstash-logback-encoder:4.8") //make logback output JSON
 
     testCompile("junit:junit")
     testCompile("io.rest-assured:rest-assured:3.0.1")

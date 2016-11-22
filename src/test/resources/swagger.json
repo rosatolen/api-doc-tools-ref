@@ -53,7 +53,7 @@
             "in": "body",
             "description": "Post to be created",
             "required": true,
-            "schema": {"$ref": "#/definitions/NewPost"}
+            "schema": {"$ref": "#/definitions/Post"}
           }
         ],
         "responses": {
@@ -133,14 +133,7 @@
         "dateUpdated": {"type": "string", "format": "date-time"}
       }
     },
-    "NewPost": {
-      "type": "object",
-      "required": ["title", "body"],
-      "properties": {
-        "title": {"type": "string"},
-        "body": {"type": "string"}
-      }
-    },
+
     "Message": {
       "type": "object",
       "properties": {

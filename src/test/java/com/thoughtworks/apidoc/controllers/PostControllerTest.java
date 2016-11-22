@@ -33,7 +33,7 @@ public class PostControllerTest {
 
         ResponseEntity<PostCollection> response = controller.collection();
 
-        assertThat(response.getBody(), is(posts));
+        assertThat(response.getBody().getData(), is(posts));
     }
 
 }

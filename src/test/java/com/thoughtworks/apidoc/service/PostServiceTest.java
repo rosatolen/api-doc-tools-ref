@@ -43,6 +43,7 @@ public class PostServiceTest {
 
         UUID id = expected.getId();
         Optional<Post> actual = postService.get(id.toString());
+        assertThat(actual.isPresent(), is(true));
         assertThat(actual.get(), is(expected));
     }
 
