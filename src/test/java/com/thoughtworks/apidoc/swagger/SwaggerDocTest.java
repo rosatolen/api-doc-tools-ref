@@ -36,9 +36,8 @@ public class SwaggerDocTest {
                 .perform(MockMvcRequestBuilders.get("/v2/api-docs"))
                 .andDo(result -> {
                     String contentAsString = result.getResponse().getContentAsString();
-                    System.out.println(contentAsString);
                     Swagger actual = new Swagger20Parser().parse(contentAsString);
-                    Swagger expected = new SwaggerParser().read("swagger.json");
+                    Swagger expected = new SwaggerParser().read("spec.json");
                     new SwaggerAssert(actual).isEqualTo(expected);
                 });
     }
