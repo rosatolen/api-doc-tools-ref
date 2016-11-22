@@ -1,0 +1,157 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "DPS Swagger Reference Implementation API",
+    "description": "Exactly what you think it is",
+    "version": "1"
+  },
+  "host": "localhost",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "basePath": "",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/Message"}
+          }
+        }
+      }
+    },
+    "/posts": {
+      "get": {
+        "description": "Returns all of the posts, filtered as specified by the user",
+        "operationId": "findPosts",
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {"$ref": "#/definitions/PostCollection"}
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a new post, generating a UUID for it",
+        "operationId": "createPost",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "post",
+            "in": "body",
+            "description": "Post to be created",
+            "required": true,
+            "schema": {"$ref": "#/definitions/NewPost"}
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "newly created post",
+            "schema": {"$ref": "#/definitions/Post"}
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "description": "Gets the representation of a post by its id",
+        "operationId": "getPostById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/Post"}
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the specified post",
+        "operationId": "updatePost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/Post"}
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the specified post",
+        "operationId": "deletePost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Post": {
+      "type": "object",
+      "required": ["title", "body"],
+      "properties": {
+        "title": {"type": "string"},
+        "body": {"type": "string"},
+        "id": {"type": "string", "format": "uuid"}
+      }
+    },
+    "NewPost": {
+      "type": "object",
+      "required": ["title", "body"],
+      "properties": {
+        "title": {"type": "string"},
+        "body": {"type": "string"}
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "content": {"type": "string"}
+      }
+    },
+    "PostCollection": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/Post"}}
+      }
+    }
+  }
+}
