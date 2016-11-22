@@ -128,7 +128,9 @@
       "properties": {
         "title": {"type": "string"},
         "body": {"type": "string"},
-        "id": {"type": "string", "format": "uuid"}
+        "id": {"type": "string"},
+        "dateCreated": {"type": "string", "format": "date-time"},
+        "dateUpdated": {"type": "string", "format": "date-time"}
       }
     },
     "NewPost": {

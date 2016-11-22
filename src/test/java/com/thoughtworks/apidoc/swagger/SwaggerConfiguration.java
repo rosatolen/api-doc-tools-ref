@@ -16,6 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -33,25 +34,14 @@ public class SwaggerConfiguration {
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
                 //prevent generation of model definitions for types that are serialized as strings
-                .directModelSubstitute(OffsetDateTime.class, String.class)
-                .directModelSubstitute(UUID.class, String.class)
+                .directModelSubstitute(OffsetDateTime.class, Date.class)
+//                .directModelSubstitute(UUID.class, UUID.class)
                 .select()
                 //ignore actuator endpoints
                 .paths(regex("\\/(?!.*actuator|metrics|autoconfig|beans|configprops|dump|env|health|heapdump|info|mappings|trace|error).*"))
                 .build();
         return docket;
     }
-
-//    @Bean
-//    public Docket unAuthenticatedDocket() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .useDefaultResponseMessages(false)
-//                .groupName("unauthenticated-endpoints")
-//                .apiInfo(apiInfo())
-//                .select()
-//                .paths(regex("^/(profiles|publicProfiles/.*)"))
-//                .build();
-//    }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("DPS Swagger Reference Implementation API").description("Exactly what you think it is").build();

@@ -1,11 +1,9 @@
 package com.thoughtworks.apidoc.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class Post {
@@ -53,4 +51,5 @@ public class Post {
     public void setDateUpdated(OffsetDateTime dateUpdated) {
         this.dateUpdated = dateUpdated;
     }
+
 }
