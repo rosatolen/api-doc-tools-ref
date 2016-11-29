@@ -10,7 +10,7 @@
     "http",
     "https"
   ],
-  "basePath": "",
+  "basePath": "/",
   "produces": [
     "application/json"
   ],
@@ -18,21 +18,21 @@
     "application/json"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "responses": {
-          "200": {
-            "schema": {"$ref": "#/definitions/Message"}
-          }
-        }
-      }
-    },
     "/posts": {
       "get": {
         "description": "Returns all of the posts, filtered as specified by the user",
         "operationId": "findPosts",
         "parameters": [
-
+          { "$ref": "#/parameters/page" },
+          { "$ref": "#/parameters/perPage" },
+          { "$ref": "#/parameters/sort" },
+          {
+            "name": "authorId",
+            "in": "query",
+            "description": "Author to filter on",
+            "required": false,
+            "type": "string"
+          }
         ],
         "responses": {
           "200": {
@@ -79,6 +79,7 @@
         ],
         "responses": {
           "200": {
+            "description": "found user",
             "schema": {"$ref": "#/definitions/Post"}
           }
         }
@@ -97,6 +98,7 @@
         ],
         "responses": {
           "200": {
+            "description": "updated user",
             "schema": {"$ref": "#/definitions/Post"}
           }
         }
@@ -115,7 +117,28 @@
         ],
         "responses": {
           "200": {
-
+            "description": "empty response"
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "description": "",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "user to be created",
+            "required": true,
+            "schema": {"$ref": "#/definitions/User"}
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "newly created user",
+            "schema": {"$ref": "#/definitions/User"}
           }
         }
       }
@@ -128,18 +151,14 @@
       "properties": {
         "title": {"type": "string"},
         "body": {"type": "string"},
-        "id": {"type": "string"},
+        "id": {"type": "string", "readOnly": true},
+        "authorId": {"type": "string"},
+        "author": {"$ref": "#/definitions/User", "readOnly": true},
         "dateCreated": {"type": "string", "format": "date-time"},
         "dateUpdated": {"type": "string", "format": "date-time"}
       }
     },
 
-    "Message": {
-      "type": "object",
-      "properties": {
-        "content": {"type": "string"}
-      }
-    },
     "PostCollection": {
       "type": "object",
       "properties": {
@@ -147,6 +166,39 @@
           "type": "array",
           "items": {"$ref": "#/definitions/Post"}}
       }
+    },
+
+    "User": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string"},
+        "id": {"type": "string"}
+      }
+    }
+
+  },
+  "parameters": {
+    "sort": {
+      "name": "sort",
+      "in": "query",
+      "description": "comma separated list of sort keys",
+      "required": false,
+      "type": "string"
+    },
+    "page": {
+      "name": "page",
+      "in": "query",
+      "description": "page of results to display",
+      "required": false,
+      "type": "integer"
+    },
+    "perPage": {
+      "name": "perPage",
+      "in": "query",
+      "description": "number of results to display in a page",
+      "required": false,
+      "type": "integer"
     }
   }
 }

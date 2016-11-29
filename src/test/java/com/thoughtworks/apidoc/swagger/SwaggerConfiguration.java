@@ -35,7 +35,6 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo())
                 //prevent generation of model definitions for types that are serialized as strings
                 .directModelSubstitute(OffsetDateTime.class, Date.class)
-//                .directModelSubstitute(UUID.class, UUID.class)
                 .select()
                 //ignore actuator endpoints
                 .paths(regex("\\/(?!.*actuator|metrics|autoconfig|beans|configprops|dump|env|health|heapdump|info|mappings|trace|error).*"))

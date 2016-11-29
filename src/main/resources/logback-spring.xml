@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- trying to mux multiline log events is a dogs breakfast, log as JSON -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>info</level>
-        </filter>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
-    </appender>
-    <root level="all">
-        <appender-ref ref="CONSOLE" />
-    </root>
+    <springProfile name="local">
+        <include resource="org/springframework/boot/logging/logback/base.xml" />
+    </springProfile>
+    <springProfile name="!local">
+        <!-- when you're not on a local dev box you should log as JSON to make your aggregator happy-->
+        <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>info</level>
+            </filter>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="JSON" />
+        </root>
+    </springProfile>
 </configuration>

@@ -21,14 +21,14 @@ public class APIReferenceApplication {
     }
 
     @Bean
-    @Primary
+    @Primary //This is part of the wizardry to make Jackson serialize java.time classes as ISO 8601
     public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         return objectMapper;
     }
 
-    @Bean
+    @Bean //The spring boot default error output is pretty good, but slightly too chatty
     public ErrorAttributes errorAttributes() {
         return new DefaultErrorAttributes() {
             @Override

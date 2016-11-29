@@ -35,9 +35,19 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
+
+
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
+    compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.1.1")
+    compile("org.mybatis:mybatis-typehandlers-jsr310:1.0.1")
+    compile("com.h2database:h2")
+
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.1") //java.time support
 
     compile("net.logstash.logback:logstash-logback-encoder:4.8") //make logback output JSON
+
+
+
 
     testCompile("junit:junit")
     testCompile("io.rest-assured:rest-assured:3.0.1")

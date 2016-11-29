@@ -16,6 +16,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {APIReferenceApplication.class, SwaggerConfiguration.class}, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -36,6 +39,7 @@ public class SwaggerDocTest {
                 .perform(MockMvcRequestBuilders.get("/v2/api-docs"))
                 .andDo(result -> {
                     String contentAsString = result.getResponse().getContentAsString();
+
                     Swagger actual = new Swagger20Parser().parse(contentAsString);
                     Swagger expected = new SwaggerParser().read("spec.json");
                     new SwaggerAssert(actual).isEqualTo(expected);

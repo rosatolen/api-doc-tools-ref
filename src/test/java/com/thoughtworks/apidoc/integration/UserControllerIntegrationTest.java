@@ -1,20 +1,15 @@
 package com.thoughtworks.apidoc.integration;
 
 
+import com.thoughtworks.apidoc.APIReferenceApplication;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import com.thoughtworks.apidoc.APIReferenceApplication;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
@@ -25,10 +20,10 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = APIReferenceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PostControllerIntegrationTest {
+public class UserControllerIntegrationTest {
 
     @LocalServerPort
-    private int port;
+    int port;
 
 
     @Before
@@ -36,17 +31,17 @@ public class PostControllerIntegrationTest {
         RestAssured.port = port;
     }
 
+
     @Test
-    public void shouldCreateAPost() throws Exception {
+    public void shouldCreateAUser() throws Exception {
         given()
-                .body("{\"title\": \"Title\", \"body\": \"body\", \"authorId\": \"508a550c-5864-4d4d-b556-cb12832a6d6b\"}")
+                .body("{\"name\": \"Max\"}")
                 .contentType(ContentType.JSON)
         .when()
-                .post("/posts")
+                .post("/users")
         .then()
                 .statusCode(CREATED.value())
-                .body("title", is("Title"))
-                .body("body", is("body"))
+                .body("name", is("Max"))
                 .body("id", is(notNullValue()));
     }
 }
