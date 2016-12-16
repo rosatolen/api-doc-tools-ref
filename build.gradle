@@ -30,7 +30,9 @@ test {
         html.enabled = true
     }
 }
-
+task wrapper(type: Wrapper) {
+   gradleVersion = '3.0'
+}
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
