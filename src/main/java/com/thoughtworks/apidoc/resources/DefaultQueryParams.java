@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DefaultQueryParams {
-    private static final int PER_PAGE_DEFAULT = 5;
+    public static final int PER_PAGE_DEFAULT = 5;
     private String sort;
     private int page = 1;
     private int perPage = PER_PAGE_DEFAULT;
@@ -45,7 +45,8 @@ public class DefaultQueryParams {
     public List<SortKey> getSortKeys() {
         if (sort == null) { return Collections.emptyList(); }
 
-        String[] keys = sort.split(",");
-        return Arrays.stream(keys).map(SortKey::fromString).collect(Collectors.toList());
+        return Arrays.stream(sort.split(","))
+                .map(SortKey::fromString)
+                .collect(Collectors.toList());
     }
 }

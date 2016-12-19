@@ -35,7 +35,7 @@ public class PostController {
 
     @RequestMapping(method = GET)
     public ResponseEntity<PostCollection> collection(DefaultQueryParams params, Optional<String> authorId, @RequestParam Optional<List<Integer>> tings) {
-        List<Post> posts = postService.getPosts(params.getSortKeys(), params.getPage(), params.getPerPage(), authorId.map(UUID::fromString));
+        List<Post> posts = postService.getPosts(authorId.map(Integer::valueOf), params);
         return new ResponseEntity<>(new PostCollection(posts), OK);
     }
 

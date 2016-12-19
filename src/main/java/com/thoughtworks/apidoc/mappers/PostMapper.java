@@ -23,4 +23,8 @@ public interface PostMapper {
 
     @Select("SELECT posts.title, posts.body, posts.id, posts.dateCreated, posts.dateUpdated, users.name FROM POSTS JOIN USERS ON posts.authorId = users.id WHERE posts.id = #{id}")
     Post getPostById(Integer id);
+
+    @Select("SELECT posts.title, posts.body, posts.id, posts.dateCreated, posts.dateUpdated, posts.authorId, users.name as authorName FROM posts JOIN users ON posts.authorId = users.id WHERE posts.authorId = #{authorId}")
+    List<Post> getPostsForAuthor(Integer authorId, RowBounds expectedRowBounds);
+
 }

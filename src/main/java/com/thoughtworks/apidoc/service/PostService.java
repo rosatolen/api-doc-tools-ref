@@ -1,7 +1,7 @@
 package com.thoughtworks.apidoc.service;
 
 import com.thoughtworks.apidoc.mappers.PostMapper;
-import com.thoughtworks.apidoc.resources.SortKey;
+import com.thoughtworks.apidoc.resources.DefaultQueryParams;
 import com.thoughtworks.apidoc.model.Post;
 import com.thoughtworks.apidoc.validation.UUIDValidator;
 import org.apache.ibatis.session.RowBounds;
@@ -32,10 +32,14 @@ public class PostService {
         this.userService = userService;
     }
 
-    public List<Post> getPosts(List<SortKey> sortKeys, int page, int perPage, Optional<UUID> authorId) {
-
-        int offset = (page - 1) * perPage;
-        return postMapper.getAllPosts(new RowBounds(offset, perPage));
+    public List<Post> getPosts(Optional<Integer> authorId, DefaultQueryParams params) {
+        int offset = (params.getPage() - 1) * params.getPerPage();
+        RowBounds bounds = new RowBounds(offset, params.getPerPage());
+        if (authorId.isPresent()) {
+            return postMapper.getPostsForAuthor(authorId.get(), bounds);
+        } else {
+            return postMapper.getAllPosts(bounds);
+        }
     }
 
 

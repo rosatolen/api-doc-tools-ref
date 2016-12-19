@@ -1,4 +1,4 @@
-package com.thoughtworks.apidoc.integration;
+package com.thoughtworks.apidoc.controllers;
 
 
 import com.thoughtworks.apidoc.APIReferenceApplication;
@@ -12,18 +12,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = APIReferenceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserControllerIntegrationTest {
+public class PostControllerIntegrationTest {
 
     @LocalServerPort
-    int port;
+    private int port;
 
 
     @Before
@@ -31,17 +29,17 @@ public class UserControllerIntegrationTest {
         RestAssured.port = port;
     }
 
-
     @Test
-    public void shouldCreateAUser() throws Exception {
+    public void shouldCreateAPost() throws Exception {
         given()
-                .body("{\"name\": \"Max\"}")
+                .body("{\"title\": \"Title\", \"body\": \"body\"}")
                 .contentType(ContentType.JSON)
         .when()
-                .post("/users")
+                .post("/posts")
         .then()
                 .statusCode(CREATED.value())
-                .body("name", is("Max"))
+                .body("title", is("Title"))
+                .body("body", is("body"))
                 .body("id", is(notNullValue()));
     }
 }

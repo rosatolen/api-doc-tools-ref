@@ -21,7 +21,6 @@ public class Post {
     private Integer id;
     private OffsetDateTime dateCreated;
     private OffsetDateTime dateUpdated;
-    private String authorName;
 
     public Post() {
         //for mybatis
@@ -90,11 +89,4 @@ public class Post {
         this.authorId = authorId;
     }
 
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
 }

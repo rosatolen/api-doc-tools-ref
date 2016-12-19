@@ -30,14 +30,14 @@ test {
         html.enabled = true
     }
 }
+
 task wrapper(type: Wrapper) {
-   gradleVersion = '3.0'
+   gradleVersion = '3.1'
 }
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-
-
 
     compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.1.1")
@@ -61,3 +61,36 @@ dependencies {
     testCompile("io.swagger:swagger-parser:1.0.23")
     testCompile("io.github.robwin:assertj-swagger:0.4.0")
 }
+
+
+//ALL THE VARIOUS THINGS TO MAKE A SEPARATE TEST ROOT WORK. THANKS GRADLE
+idea {
+    module {
+        testSourceDirs += file("src/integration/java")
+    }
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration/java')
+        }
+        resources.srcDir file('src/integration/resources')
+    }
+}
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test

@@ -11,12 +11,15 @@
     "https"
   ],
   "basePath": "/",
+
   "produces": [
     "application/json"
   ],
+
   "consumes": [
     "application/json"
   ],
+
   "paths": {
     "/posts": {
       "get": {
@@ -42,7 +45,7 @@
         }
       },
       "post": {
-        "description": "Creates a new post, generating a UUID for it",
+        "description": "Creates a new post, generating an id for it",
         "operationId": "createPost",
         "consumes": [
           "application/json"
@@ -123,6 +126,21 @@
       }
     },
     "/users": {
+      "get": {
+        "description": "",
+        "operationId": "getUsers",
+        "parameters": [
+          { "$ref": "#/parameters/page" },
+          { "$ref": "#/parameters/perPage" },
+          { "$ref": "#/parameters/sort" }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {"$ref": "#/definitions/UserCollection"}
+          }
+        }
+      },
       "post": {
         "description": "",
         "operationId": "createUser",
@@ -151,11 +169,11 @@
       "properties": {
         "title": {"type": "string"},
         "body": {"type": "string"},
-        "id": {"type": "string", "readOnly": true},
-        "authorId": {"type": "string"},
+        "id": {"type": "integer", "format": "int32", "readOnly": true},
+        "authorId": {"type": "integer", "format": "int32"},
         "author": {"$ref": "#/definitions/User", "readOnly": true},
-        "dateCreated": {"type": "string", "format": "date-time"},
-        "dateUpdated": {"type": "string", "format": "date-time"}
+        "dateCreated": {"type": "string", "format": "date-time", "readOnly": true},
+        "dateUpdated": {"type": "string", "format": "date-time", "readOnly": true}
       }
     },
 
@@ -167,13 +185,23 @@
           "items": {"$ref": "#/definitions/Post"}}
       }
     },
+    "UserCollection": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/User"}}
+      }
+    },
 
     "User": {
       "type": "object",
       "required": ["name"],
       "properties": {
         "name": {"type": "string"},
-        "id": {"type": "string"}
+        "id": {"type": "integer", "format": "int32", "readOnly": true},
+        "dateCreated": {"type": "string", "format": "date-time", "readOnly": true},
+        "dateUpdated": {"type": "string", "format": "date-time", "readOnly": true}
       }
     }
 
