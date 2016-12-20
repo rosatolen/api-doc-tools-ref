@@ -4,7 +4,7 @@ public class SortKey {
     public final String key;
     public final boolean ascending;
 
-    public SortKey(String key, boolean ascending) {
+    SortKey(String key, boolean ascending) {
         this.key = key;
         this.ascending = ascending;
     }

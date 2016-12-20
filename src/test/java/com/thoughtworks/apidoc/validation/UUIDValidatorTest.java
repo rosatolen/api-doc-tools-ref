@@ -1,5 +1,6 @@
 package com.thoughtworks.apidoc.validation;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -7,10 +8,12 @@ import java.util.UUID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+//TODO decide if worth making UUIDs again and delete this if not
+@Ignore("they're not uuids right now. May come back, else delete")
 public class UUIDValidatorTest {
 
     public static final String VALID_UUID = UUID.randomUUID().toString();
-    UUIDValidator validator = new UUIDValidator();
+    IdValidator validator = new IdValidator();
 
     @Test
     public void shouldBeFalseForNull() {

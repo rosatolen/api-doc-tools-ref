@@ -3,10 +3,9 @@ package com.thoughtworks.apidoc.service;
 import com.thoughtworks.apidoc.mappers.PostMapper;
 import com.thoughtworks.apidoc.resources.DefaultQueryParams;
 import com.thoughtworks.apidoc.model.Post;
-import com.thoughtworks.apidoc.validation.UUIDValidator;
+import com.thoughtworks.apidoc.validation.IdValidator;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -21,13 +20,12 @@ import static java.time.ZoneOffset.UTC;
 public class PostService {
 
     private final ConcurrentMap<String, Post> posts = new ConcurrentHashMap<>();
-    final JdbcTemplate jdbcTemplate;
     private PostMapper postMapper;
     private UserService userService;
+    public static final IdValidator VALIDATOR = new IdValidator();
 
     @Autowired
-    public PostService(JdbcTemplate jdbcTemplate, PostMapper postMapper, UserService userService) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PostService(PostMapper postMapper, UserService userService) {
         this.postMapper = postMapper;
         this.userService = userService;
     }
@@ -42,12 +40,6 @@ public class PostService {
         }
     }
 
-
-    private boolean exceedsLastPage(int offset) {
-        return offset >= posts.size();
-    }
-
-
     //yes yes, I'm terrible, mutating params
     public Post create(Post post) {
 
@@ -60,13 +52,16 @@ public class PostService {
     }
 
     public Optional<Post> get(String id) {
-        UUIDValidator validator = new UUIDValidator();
-        if (!validator.validate(id)) {return Optional.empty();}
+        if (!VALIDATOR.validate(id)) {return Optional.empty();}
         return Optional.ofNullable(postMapper.getPostById(Integer.valueOf(id)));
     }
 
     public Optional<Post> delete(String id) {
-        return Optional.ofNullable(posts.remove(id));
+        Optional<Post> post = get(id);
+        if (post.isPresent()) {
+            postMapper.deletePost(post.get().getId());
+        }
+        return post;
     }
 
     public Optional<Post> update(String id) {
